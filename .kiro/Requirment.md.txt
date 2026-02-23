@@ -1,0 +1,31 @@
+The purpose of this project is to submit a context entry for
+ the Logitech DevStudio challenge 2026 taking place at DevPost.com.
+https://www.logitech.com/en-in/discover/devstudio/challenge
+
+
+ The category we are submitting is Pluging category, unleashing 
+ the power of AsctionSDK. The intent is to publish a plugin to the 
+ Logitech plugin marketplace- https://marketplace.logi.com
+
+
+ The Logi Action Ring is a digital, on-screen overlay powered 
+ by the Logi Options+ app.  The Logi plugins make Actions' form
+ applications sbvailable as easy shortcut via the Action Ring and 
+ Logi device button/action bindings.
+
+
+ Our submission consists of developing a plugin for GIMP windows 
+ version 3.
+
+ Many model plugin are available as template:
+ https://github.com/KobeBrandt/no-as-a-service-logi-plugin
+ https://github.com/notadoctor99/librehardwaremonitorplugin
+
+ The GIMP GObjects reflection based API is well integrated with 
+ .NET. The Logi sdk is C# based. 
+
+ Routine Gimp actions and workflows are to be reflected as Actions
+ in the plugin. So that MX devices Keybindings could be effected
+ by the user. Action Ring could be configured to the Gimp actions,
+ workflow items.
+
