@@ -1,0 +1,35 @@
+# ==================================================================================================
+# GENERAL SETTINGS
+# ==================================================================================================
+
+type: plugin4
+name: Gimp
+displayName: GIMP 3 Plugin
+description: Control GIMP 3 image editing with your Logitech MX devices. Quick access to tools, layers, filters, and common operations.
+pluginFileName: GimpPlugin.dll
+version: 1.0.0
+author: ett8u
+copyright: Copyright © 2026 ett8u. All rights reserved.
+
+# ==================================================================================================
+# PLUGIN PROPERTIES
+# ==================================================================================================
+
+pluginFolderWin: bin
+
+supportedDevices:
+    - LoupedeckCtFamily
+
+pluginCapabilities:
+    - HasApplication
+
+minimumLoupedeckVersion: 6.0
+
+# ==================================================================================================
+# LOUPEDECK MARKETPLACE SETTINGS
+# ==================================================================================================
+
+license: MIT
+licenseUrl: https://opensource.org/licenses/MIT
+supportPageUrl: https://github.com/ett8u/logioptionplus-gimp-plugin/issues
+homePageUrl: https://github.com/ett8u/logioptionplus-gimp-plugin
