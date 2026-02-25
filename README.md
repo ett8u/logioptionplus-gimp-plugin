@@ -4,15 +4,15 @@ Control GIMP 3 image editing with your Logitech MX devices through Logi Options+
 
 ## 🎥 Video Demo
 
-**Watch the demo**: [The Haptic Fox on YouTube](https://youtu.be/uFzzFkRWZGg)
+**Watch the demo**: [The Haptic Fox on YouTube](https://www.youtube.com/watch?v=UB5b2F3gqCg)
 
-[![The Haptic Fox](https://img.youtube.com/vi/uFzzFkRWZGg/maxresdefault.jpg)](https://youtu.be/uFzzFkRWZGg)
+[![The Haptic Fox](https://img.youtube.com/vi/UB5b2F3gqCg/maxresdefault.jpg)](https://www.youtube.com/watch?v=UB5b2F3gqCg)
 
 ## 🎯 Contest Submission Status
 
 **Status**: ✅ **SUBMITTED - Video Live on YouTube**
 
-**YouTube**: [Watch The Haptic Fox Demo](https://youtu.be/uFzzFkRWZGg)  
+**YouTube**: [Watch The Haptic Fox Demo](https://www.youtube.com/watch?v=UB5b2F3gqCg)  
 **DevPost**: Submission Complete  
 **Repository**: [github.com/ett8u/logioptionplus-gimp-plugin](https://github.com/ett8u/logioptionplus-gimp-plugin)
 

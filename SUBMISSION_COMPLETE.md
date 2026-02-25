@@ -2,9 +2,9 @@
 
 ## YouTube Video
 
-**Live**: https://youtu.be/uFzzFkRWZGg
+**Live**: https://www.youtube.com/watch?v=UB5b2F3gqCg
 
-[![The Haptic Fox](https://img.youtube.com/vi/uFzzFkRWZGg/maxresdefault.jpg)](https://youtu.be/uFzzFkRWZGg)
+[![The Haptic Fox](https://img.youtube.com/vi/UB5b2F3gqCg/maxresdefault.jpg)](https://www.youtube.com/watch?v=UB5b2F3gqCg)
 
 ## DevPost Submission
 
