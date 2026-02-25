@@ -1,117 +1,89 @@
 namespace Loupedeck.GimpPlugin.Interop
 {
     using System;
-    using System.Diagnostics;
-    using System.IO;
-    using System.Text;
+    using System.Text.Json;
+    using System.Threading.Tasks;
 
     /// <summary>
-    /// Handles communication with GIMP 3 via Script-Fu batch mode
+    /// GIMP integration via MQTT pub/sub
     /// </summary>
     public class GimpInterop
     {
         private static GimpInterop _instance;
         private bool _isConnected = false;
-        private string _gimpExecutable;
+        private MqttBroker _broker;
+
+        // MQTT Topics
+        private const string TOPIC_GIMP_ACTION = "gimp/action";
+        private const string TOPIC_GIMP_STATUS = "gimp/status";
+        private const string TOPIC_MX_HAPTIC = "mx/haptic";
+        private const string TOPIC_MX_ICON = "mx/icon";
 
         public static GimpInterop Instance => _instance ??= new GimpInterop();
 
-        private GimpInterop() 
+        private GimpInterop()
         {
-            FindGimpExecutable();
+            _broker = MqttBroker.Instance;
         }
 
-        private void FindGimpExecutable()
-        {
-            // Check common GIMP 3 installation paths
-            var paths = new[]
-            {
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "GIMP 3", "bin", "gimp-3.exe"),
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "GIMP 3", "bin", "gimp-3.exe"),
-                "C:\\Program Files\\GIMP 3\\bin\\gimp-3.exe"
-            };
-
-            foreach (var path in paths)
-            {
-                if (File.Exists(path))
-                {
-                    _gimpExecutable = path;
-                    PluginLog.Info($"Found GIMP at: {path}");
-                    return;
-                }
-            }
-
-            PluginLog.Warning("GIMP 3 executable not found");
-        }
-
-        public bool Connect()
+        public async Task<bool> ConnectAsync()
         {
             try
             {
-                // Check if GIMP is running
-                var gimpProcesses = Process.GetProcessesByName("gimp-3");
-                if (gimpProcesses.Length == 0)
-                {
-                    PluginLog.Warning("GIMP 3 process not found");
-                    return false;
-                }
-
+                // Start MQTT broker
+                await _broker.StartAsync();
+                
                 _isConnected = true;
-                PluginLog.Info("Connected to GIMP 3");
+                PluginLog.Info("GIMP Interop connected via MQTT");
+                
+                // Publish connection status
+                await PublishStatusAsync("connected");
+                
                 return true;
             }
             catch (Exception ex)
             {
-                PluginLog.Error($"Failed to connect to GIMP: {ex.Message}");
+                PluginLog.Error($"Failed to connect GIMP Interop: {ex.Message}");
                 return false;
             }
         }
 
-        public void Disconnect()
+        public async Task DisconnectAsync()
         {
             if (_isConnected)
             {
+                await PublishStatusAsync("disconnected");
+                await _broker.StopAsync();
                 _isConnected = false;
-                PluginLog.Info("Disconnected from GIMP 3");
+                PluginLog.Info("GIMP Interop disconnected");
             }
         }
 
         public bool IsConnected() => _isConnected;
 
-        public bool HasActiveImage()
-        {
-            if (!_isConnected) return false;
-            // Assume active image exists if GIMP is running
-            return true;
-        }
-
-        public int GetActiveImageId()
-        {
-            if (!_isConnected) return -1;
-            return 1;
-        }
-
-        public bool HasActiveSelection()
-        {
-            if (!_isConnected) return false;
-            return false;
-        }
-
-        public bool InvokeOperation(string operationName, params object[] parameters)
+        public async Task<bool> InvokeOperationAsync(string operationName, params object[] parameters)
         {
             if (!_isConnected)
             {
-                PluginLog.Error($"Cannot invoke {operationName}: Not connected to GIMP");
+                PluginLog.Error($"Cannot invoke {operationName}: Not connected");
                 return false;
             }
 
             try
             {
                 PluginLog.Info($"Invoking GIMP operation: {operationName}");
-                
-                // Send keyboard shortcut to GIMP window
-                SendKeyboardShortcut(operationName);
-                
+
+                // Publish action to GIMP via MQTT
+                var actionMessage = new
+                {
+                    operation = operationName,
+                    parameters = parameters,
+                    timestamp = DateTime.UtcNow.ToString("o")
+                };
+
+                var json = JsonSerializer.Serialize(actionMessage);
+                await _broker.PublishAsync(TOPIC_GIMP_ACTION, json);
+
                 return true;
             }
             catch (Exception ex)
@@ -121,80 +93,84 @@ namespace Loupedeck.GimpPlugin.Interop
             }
         }
 
-        private void SendKeyboardShortcut(string operation)
+        public async Task SendHapticFeedbackAsync(string feedbackType, int intensity = 50)
         {
-            // Map operations to GIMP keyboard shortcuts
-            var shortcut = GetShortcutForOperation(operation);
-            if (!string.IsNullOrEmpty(shortcut))
-            {
-                // Use Windows API to send keys to GIMP
-                ActivateGimpWindow();
-                System.Threading.Thread.Sleep(50);
-                SendKeys(shortcut);
-            }
-        }
+            if (!_isConnected) return;
 
-        private string GetShortcutForOperation(string operation)
-        {
-            // Map common operations to GIMP shortcuts
-            return operation switch
-            {
-                "gimp-file-open" => "^o",           // Ctrl+O
-                "gimp-file-save" => "^s",           // Ctrl+S
-                "gimp-file-save-as" => "^+s",       // Ctrl+Shift+S
-                "gimp-file-export" => "^+e",        // Ctrl+Shift+E
-                "gimp-edit-undo" => "^z",           // Ctrl+Z
-                "gimp-edit-redo" => "^y",           // Ctrl+Y
-                "gimp-edit-cut" => "^x",            // Ctrl+X
-                "gimp-edit-copy" => "^c",           // Ctrl+C
-                "gimp-edit-paste" => "^v",          // Ctrl+V
-                "gimp-selection-all" => "^a",       // Ctrl+A
-                "gimp-selection-none" => "^+a",     // Ctrl+Shift+A
-                "gimp-selection-invert" => "^i",    // Ctrl+I
-                "gimp-view-zoom-in" => "+",         // +
-                "gimp-view-zoom-out" => "-",        // -
-                "gimp-view-zoom-fit-in" => "^+e",   // Ctrl+Shift+E
-                "gimp-view-zoom-1-1" => "1",        // 1
-                _ => null
-            };
-        }
-
-        private void ActivateGimpWindow()
-        {
             try
             {
-                var gimpProcesses = Process.GetProcessesByName("gimp-3");
-                if (gimpProcesses.Length > 0)
+                var hapticMessage = new
                 {
-                    var handle = gimpProcesses[0].MainWindowHandle;
-                    if (handle != IntPtr.Zero)
-                    {
-                        NativeMethods.SetForegroundWindow(handle);
-                    }
-                }
+                    type = feedbackType,
+                    intensity = intensity,
+                    timestamp = DateTime.UtcNow.ToString("o")
+                };
+
+                var json = JsonSerializer.Serialize(hapticMessage);
+                await _broker.PublishAsync(TOPIC_MX_HAPTIC, json);
+
+                PluginLog.Info($"Sent haptic feedback: {feedbackType}");
             }
             catch (Exception ex)
             {
-                PluginLog.Error($"Failed to activate GIMP window: {ex.Message}");
+                PluginLog.Error($"Failed to send haptic feedback: {ex.Message}");
             }
         }
 
-        private void SendKeys(string keys)
+        public async Task UpdateIconAsync(string actionName, string iconData)
         {
+            if (!_isConnected) return;
+
             try
             {
-                System.Windows.Forms.SendKeys.SendWait(keys);
+                var iconMessage = new
+                {
+                    action = actionName,
+                    icon = iconData,
+                    timestamp = DateTime.UtcNow.ToString("o")
+                };
+
+                var json = JsonSerializer.Serialize(iconMessage);
+                await _broker.PublishAsync(TOPIC_MX_ICON, json);
+
+                PluginLog.Info($"Updated icon for: {actionName}");
             }
             catch (Exception ex)
             {
-                PluginLog.Error($"Failed to send keys: {ex.Message}");
+                PluginLog.Error($"Failed to update icon: {ex.Message}");
             }
         }
-    }
 
-    internal static class NativeMethods
-    {
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        internal static extern bool SetForegroundWindow(IntPtr hWnd);
+        private async Task PublishStatusAsync(string status)
+        {
+            var statusMessage = new
+            {
+                status = status,
+                timestamp = DateTime.UtcNow.ToString("o")
+            };
+
+            var json = JsonSerializer.Serialize(statusMessage);
+            await _broker.PublishAsync(TOPIC_GIMP_STATUS, json);
+        }
+
+        // Synchronous wrappers for backward compatibility
+        public bool Connect()
+        {
+            return ConnectAsync().GetAwaiter().GetResult();
+        }
+
+        public void Disconnect()
+        {
+            DisconnectAsync().GetAwaiter().GetResult();
+        }
+
+        public bool InvokeOperation(string operationName, params object[] parameters)
+        {
+            return InvokeOperationAsync(operationName, parameters).GetAwaiter().GetResult();
+        }
+
+        public bool HasActiveImage() => _isConnected;
+        public int GetActiveImageId() => _isConnected ? 1 : -1;
+        public bool HasActiveSelection() => false;
     }
 }
