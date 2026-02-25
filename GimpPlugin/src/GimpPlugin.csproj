@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <RootNamespace>Loupedeck.GimpPlugin</RootNamespace>
+    <UseWindowsForms>true</UseWindowsForms>
 
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,6 +29,10 @@
     <Reference Include="PluginApi">
       <HintPath>$(PluginApiDir)PluginApi.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MQTTnet" Version="4.3.7.1207" />
   </ItemGroup>
 
   <Target Name="CopyPackage" AfterTargets="PostBuildEvent">
