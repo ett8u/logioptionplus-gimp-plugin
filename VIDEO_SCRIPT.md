@@ -1,7 +1,7 @@
 # The Haptic Fox - Video Script (60 seconds)
 
 ## Opening (0-10s)
-**[Visual: MX Console with glowing buttons, GIMP logo appears]**
+**[Visual: MX Console with glowing buttons, Wilber (GIMP's fox mascot) appears]**
 **[Text overlay: "The Haptic Fox"]**
 
 **Voiceover:**
@@ -41,9 +41,9 @@
 **Voiceover:**
 "This is the hardware layer jail-breaking into the application layer. This is solidarity in the silo-breaking freedom struggle."
 
-**[Visual: Fox icon with haptic waves, MX Console glowing]**
+**[Visual: Wilber (GIMP's fox mascot) with haptic waves, MX Console glowing]**
 
-"The Haptic Fox - where Moore's Law meets human empathy. FOSS. Versatile. Ready to widen MX adoption."
+"The Haptic Fox - where Moore's Law meets human empathy. Wilber meets MX. FOSS. Versatile. Ready to widen MX adoption."
 
 **[Text overlay: "github.com/ett8u/logioptionplus-gimp-plugin"]**
 **[End card: Logitech DevStudio Challenge 2026]**
@@ -61,7 +61,7 @@
 **Key Visual Elements:**
 1. **Haptic Pulse Animation**: Concentric circles emanating from interaction points
 2. **MQTT Flow**: Animated message packets flowing between GIMP and MX Console
-3. **Fox Motif**: Stylized fox silhouette as brand element (clever, quick, adaptive)
+3. **Wilber Motif**: GIMP's fox mascot (Wilber) as the brand element - representing GIMP's 30-year legacy meeting MX innovation
 4. **Split Screen**: Show physical device + screen simultaneously
 
 **Music:**
@@ -80,7 +80,7 @@
 5. Hands using MX device with GIMP
 6. Code editor showing MQTT implementation
 7. Multiple GIMP workflows (layers, filters, selections)
-8. Fox icon animation
+8. Wilber (GIMP mascot) animation with haptic pulses
 
 ---
 

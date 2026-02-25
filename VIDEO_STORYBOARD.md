@@ -20,7 +20,7 @@
 
 **Frame 201-300 (6.6-10s)**
 - Title card: "THE HAPTIC FOX"
-- Fox silhouette with haptic pulse
+- Wilber (GIMP's fox mascot) with haptic pulse
 - Subtitle: "GIMP 3 + MX Devices"
 
 ---
@@ -118,7 +118,7 @@
 ### SCENE 5: The Close (52-60s, Frames 1561-1800)
 
 **Frame 1561-1660 (52-55.3s)**
-- Fox icon center screen
+- Wilber (GIMP mascot) center screen
 - Haptic waves pulsing outward
 - Text orbiting: "FOSS • Versatile • Empathetic"
 
@@ -134,7 +134,7 @@
 **Frame 1761-1800 (58.6-60s)**
 - Logitech DevStudio Challenge 2026 logo
 - Fade to black
-- Final frame: Fox silhouette with single haptic pulse
+- Final frame: Wilber silhouette with single haptic pulse
 
 ---
 
