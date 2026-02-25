@@ -1,12 +1,22 @@
-# GIMP 3 Logitech Plugin
+# GIMP 3 Logitech Plugin - The Haptic Fox
 
 Control GIMP 3 image editing with your Logitech MX devices through Logi Options+.
 
+## 🎥 Video Demo
+
+**Watch the demo**: [The Haptic Fox on YouTube](https://youtu.be/uFzzFkRWZGg)
+
+[![The Haptic Fox](https://img.youtube.com/vi/uFzzFkRWZGg/maxresdefault.jpg)](https://youtu.be/uFzzFkRWZGg)
+
 ## 🎯 Contest Submission Status
 
-**Status**: ✅ **Development Complete - Ready for Device Testing**
+**Status**: ✅ **SUBMITTED - Video Live on YouTube**
 
-This plugin is fully implemented and ready for testing with a physical Logitech MX device. All code is complete, documented, and follows Logitech SDK best practices.
+**YouTube**: [Watch The Haptic Fox Demo](https://youtu.be/uFzzFkRWZGg)  
+**DevPost**: Submission Complete  
+**Repository**: [github.com/ett8u/logioptionplus-gimp-plugin](https://github.com/ett8u/logioptionplus-gimp-plugin)
+
+This plugin is fully implemented with MQTT-based bidirectional communication, ready for testing with physical Logitech MX devices.
 
 ## Features
 
